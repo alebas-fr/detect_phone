@@ -1,4 +1,3 @@
-import vlc
 import os
 import time
 
@@ -14,25 +13,20 @@ def preprocess_files(path = "common/"):
 
 def read(path = "common/"):
     running = True
-    init = vlc.MediaPlayer("sound/sound6.mp3")
-    phone = vlc.MediaPlayer("sound/sound1.mp3")
-    ex = vlc.MediaPlayer("sound/sound7.mp3")
     while running:
         files = os.listdir(path)
         if "init" in files:
-            init = vlc.MediaPlayer("sound/sound6.mp3")
-            init.play()
+            os.system("mpg123 sound/sound6.mp3 &")
             os.remove(path+"init")
         if "read" in files:
-            phone = vlc.MediaPlayer("sound/sound1.mp3")
-            phone.play()
+            os.system("mpg123 sound/sound1.mp3 &")
             os.remove(path+"read")
         if "quit" in files:
-            ex = vlc.MediaPlayer("sound/sound7.mp3")
-            ex.play()
+            os.system("mpg123 sound/sound7.mp3 &")            
             time.sleep(5)
             os.remove(path+"quit")
             running = False
+    
 
 if __name__ == "__main__":
     preprocess_files()
