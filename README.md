@@ -1,3 +1,5 @@
+#Code modifié de TensorFlow Lite pour detecter les téléphones et aussi acquérir de la data
+
 # TensorFlow Lite Python object detection example with Raspberry Pi
 
 This example uses [TensorFlow Lite](https://tensorflow.org/lite) with Python on
