@@ -15,14 +15,13 @@
 import argparse
 import sys
 import time
-
+from datetime import datetime
 import cv2
 from object_detector import ObjectDetector
 from object_detector import ObjectDetectorOptions
 import utils
 import RPi.GPIO as GPIO
 import os
-import vlc
 
 
 def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
@@ -54,7 +53,8 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
   font_size = 1
   font_thickness = 1
   fps_avg_frame_count = 10
-  outPath = "vid/"+str(time.time())+".avi"
+  outPath = "vid/"+str(datetime.now())+".avi"
+  outPathNoAnnote = "NoNote/"+str(datetime.now())+".avi"
   # Get current width of frame
   width = cap.get(cv2.CAP_PROP_FRAME_WIDTH) # float
   # Get current height of frame
@@ -62,7 +62,7 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
   # Define the codec and create VideoWriter object
   fourcc = cv2.VideoWriter_fourcc(*"XVID")
   out = cv2.VideoWriter(outPath, fourcc,3,(int(width), int(height)))
-
+  outNotAnote = cv2.VideoWriter(outPathNoAnnote,fourcc,3,(int(width), int(height)))
   # Initialize the object detection model
   options = ObjectDetectorOptions(
       num_threads=num_threads,
@@ -82,7 +82,7 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
       sys.exit(
           'ERROR: Unable to read from webcam. Please verify your webcam settings.'
       )
-
+    outNotAnote.write(image)
     counter += 1
     image = cv2.flip(image, 1)
 
@@ -126,6 +126,7 @@ def run(model: str, camera_id: int, width: int, height: int, num_threads: int,
 
   cap.release()
   out.release()
+  outNotAnote.release()
   cv2.destroyAllWindows()
 
 
